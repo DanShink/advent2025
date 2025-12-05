@@ -60,6 +60,29 @@ function part2(path) {
   console.log(result);
 }
 
+function part2Test(path) {
+  const [ranges, numbers] = parseData(path);
+  const start = ranges.map(range => [range.min, 1])
+  const end = ranges.map(range => [range.max + 1, -1])
+  const allNums = [...start, ...end];
+  allNums.sort((a, b) => {
+    return a[0] === b[0] ? b[1] - a[1] : a[0] - b[0];
+  });
+  let active = 0;
+  let lastX = null;
+  let total = 0;
+
+  for (const [x, type] of allNums) {
+    if (active > 0 && lastX !== null) {
+      total += x - lastX;
+    }
+
+    active += type;
+    lastX = x;
+  }
+  console.log(total);
+}
+
 function day5() {
   part1('./test_input.txt');
   part1('./input.txt');
